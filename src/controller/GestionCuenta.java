@@ -2,6 +2,7 @@ package controller;
 
 import model.Cuenta;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +14,7 @@ public class GestionCuenta {
         this.listCuentas = new ArrayList<Cuenta> ();
     }
 
-    private Cuenta findCuentaById(int id) {
+    public Cuenta findCuentaById(int id) {
         for (Cuenta cuenta : this.listCuentas) {
             if (cuenta.getIdCuenta() == id) {
                 return cuenta;
@@ -22,20 +23,29 @@ public class GestionCuenta {
         return null;
     }
 
-    private Boolean addCuenta(Cuenta cuenta){
+    public Boolean addCuenta(Cuenta cuenta){
         if (Objects.isNull(this.findCuentaById(cuenta.getIdCuenta()))){
             this.listCuentas.add(cuenta);
+            System.out.println("Cuenta creada satisfactoriamente!");
             return true;
         }
+        System.out.println("Hubo un problema al crear la cuenta");
         return false;
     }
 
-    private Boolean deleteCuenta(Cuenta cuenta){
+    public Boolean deleteCuenta(Cuenta cuenta){
         if (Objects.isNull(this.findCuentaById(cuenta.getIdCuenta()))){
             this.listCuentas.remove(cuenta);
+            System.out.println("Cuenta eliminada satisfactoriamente");
             return true;
         }
+        System.out.println("Ha habido un error al eliminar la cuenta");
         return false;
+    }
+    public void listCuentas(){
+        for (Cuenta c: listCuentas){
+            toString();
+        }
     }
 
     public boolean consignar(int id, double monto) {

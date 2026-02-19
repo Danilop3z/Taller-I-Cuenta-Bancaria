@@ -16,8 +16,12 @@ public class Main {
             case 2->{
                 mT.menuTra();
             }
-            default->{
+            case 0->{
+                System.out.println("Saliendo del sistema...");
                 break;
+            }
+            default ->{
+                System.out.println("Ingrese una opcion valida");
             }
         }
 
