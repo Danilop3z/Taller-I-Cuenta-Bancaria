@@ -48,6 +48,31 @@ public class GestionCuenta {
         return false;
     }
 
+    public boolean transferir(int idOrigen, int idDestino, double monto) {
+        if (monto <= 0) {
+            System.out.println("Monto inválido");
+            return false;
+        }
 
+        Cuenta origen = findCuentaById(idOrigen);
+        Cuenta destino = findCuentaById(idDestino);
+
+        if (origen == null || destino == null) {
+            System.out.println("Una o ambas cuentas no existen");
+            return false;
+        }
+
+        // Primero intentamos retirar
+        boolean retiroExitoso = origen.retirar(monto);
+
+        if (retiroExitoso) {
+            // Si el retiro fue exitoso, consignamos
+            destino.consignar(monto);
+            System.out.println("Transferencia exitosa");
+            return true;
+        } else {
+            System.out.println("No se pudo realizar la transferencia (saldo insuficiente)");
+            return false;
+        }
+    }
 }
-
