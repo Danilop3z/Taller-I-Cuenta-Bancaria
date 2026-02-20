@@ -7,7 +7,6 @@ public class MenuView {
 
     public int menuPpal() {
         int a = 3;
-       // do {
             System.out.println("===========================================");
             System.out.println("====Hola Bienvenido al sistema bancario====");
             System.out.println("===========================================");
@@ -16,7 +15,6 @@ public class MenuView {
             System.out.println("2. TRANSACCIONES");
             System.out.println("0. SALIR");
             a = sn.nextInt();
-       // } while (a != 0 || a!= 2 || a!= 1);
             return a;
 
     }

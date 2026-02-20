@@ -2,7 +2,6 @@ package controller;
 
 import model.Cuenta;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -34,7 +33,7 @@ public class GestionCuenta {
     }
 
     public Boolean deleteCuenta(Cuenta cuenta){
-        if (Objects.isNull(this.findCuentaById(cuenta.getIdCuenta()))){
+        if (Objects.nonNull(this.findCuentaById(cuenta.getIdCuenta()))){
             this.listCuentas.remove(cuenta);
             System.out.println("Cuenta eliminada satisfactoriamente");
             return true;
@@ -42,20 +41,29 @@ public class GestionCuenta {
         System.out.println("Ha habido un error al eliminar la cuenta");
         return false;
     }
+
     public void listCuentas(){
         for (Cuenta c: listCuentas){
-            toString();
+            System.out.println(c);
         }
     }
 
     public boolean consignar(int id, double monto) {
+        if (monto <= 0) {
+            System.out.println("Monto invalido");
+            return false;
+        }
+
         Cuenta cuenta = findCuentaById(id);
 
-        if (cuenta != null && monto > 0) {
-            cuenta.consignar(monto);
-            return true;
+        if (cuenta == null) {
+            System.out.println("Cuenta no encontrada");
+            return false;
         }
-        return false;
+
+        cuenta.consignar(monto);
+        System.out.println("Transaccion exitosa. Nuevo saldo: " + cuenta.getSaldo());
+        return true;
     }
 
     public boolean transferir(int idOrigen, int idDestino, double monto) {

@@ -3,10 +3,12 @@ import java.util.Scanner;
 import controller.GestionCuenta;
 import model.Cuenta;
 
-public class GestionCuentas {
+public class CuentasView {
     Scanner sn = new Scanner(System.in);
-    GestionCuenta gc = new GestionCuenta();
-    public GestionCuentas(){}
+    GestionCuenta gc;
+    public CuentasView(GestionCuenta gc){
+        this.gc = gc;
+    }
 
     public void gestionCuenta() {
         int a=5;
