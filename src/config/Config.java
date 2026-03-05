@@ -18,12 +18,28 @@ public class Config {
                     new FileInputStream("resources/config/appconfig.properties")){
             properties.load(entrada);
             this.pathFiles = properties.getProperty("path.files");
-            this.nameCuentaTxt = properties.getProperty("file.name.ser");
+            this.nameCuentaTxt = properties.getProperty("file.name.txt");
             this.nameCuentaCsv = properties.getProperty("file.name.csv");
 
         }catch (IOException ex) {
             System.err.println("Error al cargar el archivo properties de configuracion: " + ex.getMessage());
         }
+    }
+
+    public String getNameCuentaTxt() {
+        return nameCuentaTxt;
+    }
+
+    public void setNameCuentaTxt(String nameCuentaTxt) {
+        this.nameCuentaTxt = nameCuentaTxt;
+    }
+
+    public String getNameCuentaCsv() {
+        return nameCuentaCsv;
+    }
+
+    public void setNameCuentaCsv(String nameCuentaCsv) {
+        this.nameCuentaCsv = nameCuentaCsv;
     }
 
     public static Config getInstance() {

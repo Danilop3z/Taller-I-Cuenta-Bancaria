@@ -1,6 +1,7 @@
 package view;
 import java.util.Scanner;
 import controller.GestionCuenta;
+import enums.ETypeFile;
 import model.Cuenta;
 
 public class CuentasView {
@@ -8,6 +9,7 @@ public class CuentasView {
     GestionCuenta gc;
     public CuentasView(GestionCuenta gc){
         this.gc = gc;
+       // gc.loadFile(ETypeFile.FILE_PLAIN);
     }
 
     public void gestionCuenta() {
@@ -21,8 +23,10 @@ public class CuentasView {
             System.out.println("0. ATRAS");
             a = sn.nextInt();
 
+
             switch (a) {
                 case 1 -> {
+
                     System.out.println("Ingrese la id de la cuenta que va a crear");
                     int nc = sn.nextInt();
                     System.out.println("Titular de la cuenta");
@@ -32,8 +36,12 @@ public class CuentasView {
 
                     Cuenta c = new Cuenta(nc, t, s);
                     gc.addCuenta(c);
+
+gc.dumpFile(ETypeFile.FILE_PLAIN);
+gc.dumpFile(ETypeFile.CSV);
                 }
                 case 2 -> {
+
                     System.out.println("Ingrese el id de la cuenta que desea buscar");
                     int id = sn.nextInt();
                    if (gc.findCuentaById(id) != null){
@@ -47,10 +55,14 @@ public class CuentasView {
                     gc.listCuentas();
                 }
                 case 4 -> {
+
                     System.out.println("Ingrese el id de la cuenta que desea eliminar");
                     int id = sn.nextInt();
                     Cuenta c = gc.findCuentaById(id);
                     gc.deleteCuenta(c);
+
+gc.dumpFile(ETypeFile.FILE_PLAIN);
+gc.dumpFile(ETypeFile.CSV);
                 }
                 case 0 -> {
                     break;

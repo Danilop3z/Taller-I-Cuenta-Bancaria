@@ -1,12 +1,18 @@
 package controller;
 
+import constants.CommonConstants;
+import enums.ETypeFile;
+import interfaces.IActionsFile;
 import model.Cuenta;
+import persistence.FilePlain;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringTokenizer;
 
-public class GestionCuenta {
+public class GestionCuenta extends FilePlain implements IActionsFile {
     private List<Cuenta> listCuentas;
 
     public GestionCuenta() {
@@ -91,6 +97,66 @@ public class GestionCuenta {
         } else {
             System.out.println("No se pudo realizar la transferencia (saldo insuficiente)");
             return false;
+        }
+    }
+    private void loadFilePlain(String nameFile) {
+        List<String> contentInLine = this.reader(
+                config.getPathFiles().concat(
+                        nameFile));
+        contentInLine.forEach(row -> {
+            StringTokenizer tokens = new StringTokenizer(
+                    row, CommonConstants.SEMICOLON);
+            while(tokens.hasMoreElements()){
+                int numeroCuenta = Integer.parseInt(tokens.nextToken());
+                String titular = tokens.nextToken();
+                double saldo = Double.parseDouble(tokens.nextToken());
+                this.listCuentas.add(
+                        new Cuenta(numeroCuenta, titular, saldo));
+            }
+        });
+    }
+
+    private void dumpFilePlain(String nameFile, String fullPath) {
+        StringBuilder rutaArchivo = new StringBuilder();
+        if(fullPath != null) {
+            rutaArchivo.append(fullPath);
+        }else {
+            rutaArchivo.append(config.getPathFiles());
+            rutaArchivo.append(nameFile);
+        }
+
+        List<String> records = new ArrayList<>();
+        for(Cuenta cuenta : this.listCuentas){
+            StringBuilder contentCuenta = new StringBuilder();
+            contentCuenta.append(cuenta.getIdCuenta()).append(CommonConstants.SEMICOLON);
+            contentCuenta.append(cuenta.getTitular()).append(CommonConstants.SEMICOLON);
+            contentCuenta.append(cuenta.getSaldo());
+            records.add(contentCuenta.toString());
+        }
+        this.writer(rutaArchivo.toString(), records);
+    }
+
+    @Override
+    public void loadFile(ETypeFile eTypeFile) {
+        if(eTypeFile.equals(ETypeFile.FILE_PLAIN)) {
+            String nameFile = config.getNameCuentaTxt();
+            loadFilePlain(nameFile);
+        }
+        if(eTypeFile.equals(ETypeFile.CSV)) {
+            String nameFile = config.getNameCuentaCsv();
+            loadFilePlain(nameFile);
+        }
+    }
+
+    @Override
+    public void dumpFile(ETypeFile eTypeFile) {
+        if(eTypeFile.equals(ETypeFile.FILE_PLAIN)) {
+            String nameFile = config.getNameCuentaTxt();
+            dumpFilePlain(nameFile, null);
+        }
+        if(eTypeFile.equals(ETypeFile.CSV)) {
+            String nameFile = config.getNameCuentaCsv();
+            dumpFilePlain(nameFile, null);
         }
     }
 }

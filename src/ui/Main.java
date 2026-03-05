@@ -1,5 +1,6 @@
 package ui;
 import controller.GestionCuenta;
+import enums.ETypeFile;
 import view.*;
 
 public class Main {
@@ -9,7 +10,7 @@ public class Main {
         MenuTransaccion mT = new MenuTransaccion(gc);
         CuentasView gC = new CuentasView(gc);
         int a;
-
+        gc.loadFile(ETypeFile.FILE_PLAIN);
         do{
             a = mV.menuPpal();
             switch (a) {

@@ -1,5 +1,6 @@
 package view;
 import controller.GestionCuenta;
+import enums.ETypeFile;
 
 import java.util.Scanner;
 
@@ -10,6 +11,7 @@ public class MenuTransaccion {
 
     public MenuTransaccion(GestionCuenta gc){
         this.gc = gc;
+      //  gc.loadFile(ETypeFile.FILE_PLAIN);
     }
 
     public void menuTra(){
@@ -27,6 +29,9 @@ public class MenuTransaccion {
                 System.out.println("Ingrese el monto que va a consignar");
                 double sld = sn.nextDouble();
                 gc.consignar(id,sld);
+
+gc.dumpFile(ETypeFile.FILE_PLAIN);
+gc.dumpFile(ETypeFile.CSV);
             }
             case 2->{
                 System.out.println("Ingrese la id de la cuenta de la cual va a retirar");
@@ -34,6 +39,9 @@ public class MenuTransaccion {
                 System.out.println("Ingrese el monto que desea retirar");
                 double sld = sn.nextDouble();
                 gc.findCuentaById(id).retirar(sld);
+                System.out.println("Retiro Exitoso!!");
+ gc.dumpFile(ETypeFile.FILE_PLAIN);
+ gc.dumpFile(ETypeFile.CSV);
             }
             case 3->{
                 System.out.println("Ingrese la id de cuenta que va a enviar");
@@ -43,6 +51,9 @@ public class MenuTransaccion {
                 System.out.println("Ingrese el monto que va a transferir");
                 double sld = sn.nextDouble();
                 gc.transferir(id1, id2, sld);
+
+gc.dumpFile(ETypeFile.FILE_PLAIN);
+gc.dumpFile(ETypeFile.CSV);
             }
             case 0->{
 
